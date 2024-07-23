@@ -17,14 +17,24 @@ public class Drive : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (Input.GetKey(KeyCode.UpArrow)) {
-            rb.AddForce(transform.forward * speed, ForceMode.VelocityChange); // move foward with velocity
+            rb.AddForce(transform.forward * speed * rb.mass, ForceMode.Impulse); // move foward with velocity
 
         } // if
 
         if (Input.GetKey(KeyCode.DownArrow)) {
-            rb.AddForce(transform.forward * speed * -1, ForceMode.VelocityChange); // move foward with velocity
+            rb.AddForce(transform.forward * speed * -rb.mass, ForceMode.Impulse); // move foward with velocity
 
         } // if
+
+        if (Input.GetKey(KeyCode.RightArrow)) {
+            rb.transform.Rotate(0.0f, 0.4f, 0.0f);
+
+        } // if
+
+        if (Input.GetKey(KeyCode.LeftArrow)) {
+            rb.transform.Rotate(0.0f, -0.4f, 0,0f);
+
+        }// if
 
     } // Update
 
