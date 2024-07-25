@@ -7,12 +7,12 @@ public class LapMarker : MonoBehaviour {
 
     public static Action OnLapMarkerTouched;
 
-
-    private void OnTriggerEnter(Collider other)
-    {
+    private void OnTriggerEnter(Collider other) {
         if(other.gameObject.CompareTag("Player")) {
             OnLapMarkerTouched();
-        }   
-    }
+
+        }  // if
+
+    } // OnTriggerEnter
 
 } // LapMarker
