@@ -11,6 +11,7 @@ public class SpawnManager : MonoBehaviour {
     public static SpawnManager Instance { get; private set; }
 
     private Vector3 lastPosition;
+    private List<GameObject> streetPrefabs;
 
     private void Awake() {
         if (Instance != null && Instance != this) {
@@ -25,6 +26,7 @@ public class SpawnManager : MonoBehaviour {
 
     void Start() {
         lastPosition = transform.position;
+        streetPrefabs = new List<GameObject>();
         InstantiateStreetSegments();
         InvokeRepeating("spawnStreet", 0.0f, (STREET_LENGTH * 3) / speed);
 
@@ -32,10 +34,13 @@ public class SpawnManager : MonoBehaviour {
 
     void InstantiateStreetSegments() {
         for (int i = 0; i < 3; i++) {
-            Instantiate(streetPrefab, lastPosition, streetPrefab.transform.rotation);
+            GameObject newStreet = Instantiate(streetPrefab, lastPosition, streetPrefab.transform.rotation);
+            streetPrefabs.Add(newStreet);
             lastPosition += new Vector3(0, 0, STREET_LENGTH);
 
         } // for
+
+        RemoveOldStreets();
 
     } // InstantiateStreetSegments
 
@@ -43,5 +48,16 @@ public class SpawnManager : MonoBehaviour {
         InstantiateStreetSegments();
 
     } // spawnStreets
+
+    void RemoveOldStreets() {
+        if (streetPrefabs.Count > 6) { 
+            // Keep only the latest 6 segments
+            GameObject oldStreet = streetPrefabs[0];
+            streetPrefabs.RemoveAt(0);
+            Destroy(oldStreet);
+
+        } // if
+
+    } // RemoveOldStreets
 
 } // SpawnManager
