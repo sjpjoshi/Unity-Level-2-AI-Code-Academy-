@@ -20,12 +20,7 @@ public class MoveForward : MonoBehaviour {
 
         ); // Vector3.MoveTowards
 
-        if (transform.position.z >= spawnManager.STREET_LENGTH * 3) {
-            Destroy(gameObject);
-
-        } // if
-
-
+     
     } // Update
 
 } // MoveForward

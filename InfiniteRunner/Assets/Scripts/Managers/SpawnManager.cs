@@ -8,6 +8,9 @@ public class SpawnManager : MonoBehaviour {
     public float STREET_LENGTH = 80f;
     public float speed = 10f;
 
+    //[Header("Player variables")]
+    //public GameObject player;
+
     public static SpawnManager Instance { get; private set; }
 
     private Vector3 lastPosition;
@@ -30,12 +33,14 @@ public class SpawnManager : MonoBehaviour {
         InstantiateStreetSegments();
         InvokeRepeating("spawnStreet", 0.0f, (STREET_LENGTH * 3) / speed);
 
+
     } // Start
 
     void InstantiateStreetSegments() {
         for (int i = 0; i < 3; i++) {
             GameObject newStreet = Instantiate(streetPrefab, lastPosition, streetPrefab.transform.rotation);
             streetPrefabs.Add(newStreet);
+            //PositionPlayerAbove(streetPrefabs[0]);
             lastPosition += new Vector3(0, 0, STREET_LENGTH);
 
         } // for
@@ -59,5 +64,11 @@ public class SpawnManager : MonoBehaviour {
         } // if
 
     } // RemoveOldStreets
+
+    //void PositionPlayerAbove(GameObject street) {
+        // Adjust the player's position to be above the newly instantiated street
+        //player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, street.transform.position.z);
+
+    //} // PositionPlayerAbove
 
 } // SpawnManager
