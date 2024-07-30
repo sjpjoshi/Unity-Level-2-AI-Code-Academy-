@@ -13,14 +13,8 @@ public class MoveForward : MonoBehaviour {
     } // Initialize
 
     void Update() {
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            new Vector3(transform.position.x, transform.position.y, spawnManager.STREET_LENGTH * 3),
-            Time.deltaTime * spawnManager.speed
+        transform.position += new Vector3(0, 0, spawnManager.speed * Time.deltaTime);
 
-        ); // Vector3.MoveTowards
-
-     
     } // Update
 
 } // MoveForward

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
@@ -14,6 +15,9 @@ public class PlayerMovement : MonoBehaviour {
     float velocityY;
     float gravity = -9.8f;
 
+    // Animator
+    Animator anim;
+
     // singleton
     private SpawnManager spawnManager;
 
@@ -22,6 +26,11 @@ public class PlayerMovement : MonoBehaviour {
 
     } // Initialize
 
+    private void Awake() {
+        anim = GetComponent<Animator>();
+
+    } // Awake
+
     void Start() {
         // Initialize the player's position on the right lane
         targetLaneX = transform.position.x;
@@ -29,6 +38,28 @@ public class PlayerMovement : MonoBehaviour {
     } // Start
 
     void Update() {
+
+        // Jumping 
+        velocityY += gravity * Time.deltaTime;
+
+        if (isGrounded() && velocityY < 0) {
+            velocityY = 0;
+            anim.SetBool("isJumping", false);
+
+        } // if
+
+        if (transform.position.y < 4.633) {
+            transform.position = new Vector3(transform.position.x, 4.633f, transform.position.z);
+
+        } // if
+
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded()) {
+            velocityY = 10;
+            anim.SetBool("isJumping", true);
+
+        } // if
+
+        // Swapping Lanes
         if (Input.GetKey(KeyCode.LeftArrow) && targetLaneX != leftLaneX) {
             targetLaneX = leftLaneX;
             StopAllCoroutines();
@@ -43,18 +74,12 @@ public class PlayerMovement : MonoBehaviour {
 
         } // if
 
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            new Vector3(transform.position.x, transform.position.y, spawnManager.STREET_LENGTH * 3),
-            Time.deltaTime * spawnManager.speed
-
-        ); // Vector3.MoveTowards
-
+        transform.position += new Vector3(0, 0, spawnManager.speed * Time.deltaTime);
 
     } // Update
 
     bool isGrounded() {
-        return transform.position.y <= 0;
+        return transform.position.y <= 4.633f;
 
     } // isGrounded
 

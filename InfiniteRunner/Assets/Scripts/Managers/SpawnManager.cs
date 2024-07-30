@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour {
+
     [Header("Street variables")]
     public GameObject streetPrefab;
     public float STREET_LENGTH = 80f;
     public float speed = 10f;
 
-    //[Header("Player variables")]
-    //public GameObject player;
+    [Header("Obstacles")]
+    public GameObject obstacle;
+    public float minSpawnTime = 1f;
+    public float maxSpawnTime = 5f;
 
     public static SpawnManager Instance { get; private set; }
 
@@ -32,7 +35,7 @@ public class SpawnManager : MonoBehaviour {
         streetPrefabs = new List<GameObject>();
         InstantiateStreetSegments();
         InvokeRepeating("spawnStreet", 0.0f, (STREET_LENGTH * 3) / speed);
-
+        StartCoroutine("SpawnObstacles");
 
     } // Start
 
@@ -65,10 +68,21 @@ public class SpawnManager : MonoBehaviour {
 
     } // RemoveOldStreets
 
-    //void PositionPlayerAbove(GameObject street) {
-        // Adjust the player's position to be above the newly instantiated street
-        //player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, street.transform.position.z);
+    IEnumerator SpawnObstacles() { 
+        while(true) {
+            if (Random.value < 0.5f) {
+                Instantiate(obstacle, new Vector3(7.47f, 4.67999983f, transform.position.z), obstacle.transform.rotation);
 
-    //} // PositionPlayerAbove
+            } else {
+                Instantiate(obstacle, new Vector3(3.58999991f, 4.67999983f, transform.position.z), obstacle.transform.rotation);
+
+            } // else
+
+            yield return new WaitForSeconds(Random.Range(minSpawnTime, maxSpawnTime));
+
+        } // while
+
+    } // SpawnObstacles
+     
 
 } // SpawnManager
