@@ -76,6 +76,11 @@ public class PlayerMovement : MonoBehaviour {
 
         transform.position += new Vector3(0, 0, spawnManager.speed * Time.deltaTime);
 
+        if (MenuManager.Instance.IsGameOver()) {
+            return; // Stop further execution if game is over
+
+        } // if
+
     } // Update
 
     bool isGrounded() {
@@ -97,5 +102,15 @@ public class PlayerMovement : MonoBehaviour {
         transform.position = new Vector3(newPosition, transform.position.y, transform.position.z);
 
     }  // swapLane
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.CompareTag("Obstacle")) {
+            MenuManager.Instance.GameOver();
+            // Disable player movement script or any other necessary components
+            this.enabled = false;
+
+        } // if
+
+    } // OnTriggerEnter
 
 } // PlayerMovement

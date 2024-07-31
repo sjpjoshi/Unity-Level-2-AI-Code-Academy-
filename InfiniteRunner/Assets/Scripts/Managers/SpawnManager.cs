@@ -56,6 +56,11 @@ public class SpawnManager : MonoBehaviour {
     } // InstantiateStreetSegments
 
     void spawnStreet() {
+        if (MenuManager.Instance.IsGameOver()) {
+            return; // Stop further execution if game is over
+
+        } // if
+
         InstantiateStreetSegments();
 
     } // spawnStreets
@@ -74,6 +79,10 @@ public class SpawnManager : MonoBehaviour {
     IEnumerator SpawnObstacles() { 
         while(true) {
             Vector3 spawnPosition;
+            if (MenuManager.Instance.IsGameOver()) {
+                yield break; // Stop further execution if game is over
+
+            } // if
 
             if (Random.value < 0.5f) {
                 spawnPosition = new Vector3(7.47f, 4.67999983f, player.position.z + 20);
