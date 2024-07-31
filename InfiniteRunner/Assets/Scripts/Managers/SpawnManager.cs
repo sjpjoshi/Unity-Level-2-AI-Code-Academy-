@@ -19,6 +19,9 @@ public class SpawnManager : MonoBehaviour {
     private Vector3 lastPosition;
     private List<GameObject> streetPrefabs;
 
+    [Header("Player")]
+    public Transform player; // Reference to the player's transform
+
     private void Awake() {
         if (Instance != null && Instance != this) {
             Destroy(this);
@@ -70,13 +73,18 @@ public class SpawnManager : MonoBehaviour {
 
     IEnumerator SpawnObstacles() { 
         while(true) {
-            if (Random.value < 0.5f) {
-                Instantiate(obstacle, new Vector3(7.47f, 4.67999983f, transform.position.z), obstacle.transform.rotation);
+            Vector3 spawnPosition;
 
-            } else {
-                Instantiate(obstacle, new Vector3(3.58999991f, 4.67999983f, transform.position.z), obstacle.transform.rotation);
+            if (Random.value < 0.5f) {
+                spawnPosition = new Vector3(7.47f, 4.67999983f, player.position.z + 20);
+
+            }
+            else {
+                spawnPosition = new Vector3(3.58999991f, 4.67999983f, player.position.z + 20);
 
             } // else
+
+            Instantiate(obstacle, spawnPosition, obstacle.transform.rotation);
 
             yield return new WaitForSeconds(Random.Range(minSpawnTime, maxSpawnTime));
 
