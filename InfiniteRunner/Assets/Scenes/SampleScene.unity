@@ -868,8 +868,8 @@ MonoBehaviour:
   STREET_LENGTH: 80
   speed: 5
   obstacle: {fileID: 4808393446349292096, guid: d5961cb725558e140a5dcfce3a8f3cdf, type: 3}
-  minSpawnTime: 1
-  maxSpawnTime: 5
+  minSpawnTime: 0.1
+  maxSpawnTime: 0.5
   player: {fileID: 1842068107}
 --- !u!1 &1231760397
 GameObject:
